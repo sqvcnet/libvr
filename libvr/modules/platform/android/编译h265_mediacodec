@@ -1,0 +1,8 @@
+将mediacodecdec_h265.c拷贝到libavcodec下
+cp ~/AndroidProjects/vrplayer/lib/platform/android/mediacodecdec_h265.c ~/ClionProjects/ijkplayer/android/contrib/ffmpeg-armv7a/libavcodec/mediacodecdec_h265.c
+
+修改libavcodec/allcodecs.c，加入下面一行：
+REGISTER_DECODER(H265_MEDIACODEC,   h265_mediacodec);
+
+修改config.h，加入下面一行：
+#define CONFIG_H265_MEDIACODEC_DECODER 1

@@ -1,0 +1,651 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B2E4E561EB7332B0063163B /* libvr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2E4E4C1EB7332A0063163B /* libvr.framework */; };
+		0B2E4E5B1EB7332B0063163B /* libvrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E5A1EB7332B0063163B /* libvrTests.m */; };
+		0B2E4E5D1EB7332B0063163B /* libvr.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E4F1EB7332A0063163B /* libvr.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0B2E4E9E1EB737E30063163B /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E691EB737E30063163B /* Audio.cpp */; };
+		0B2E4E9F1EB737E30063163B /* Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E6A1EB737E30063163B /* Audio.h */; };
+		0B2E4EA01EB737E30063163B /* AudioDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E6B1EB737E30063163B /* AudioDecoder.cpp */; };
+		0B2E4EA11EB737E30063163B /* AudioDecoder.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E6C1EB737E30063163B /* AudioDecoder.hpp */; };
+		0B2E4EA21EB737E30063163B /* AudioOutputDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E6D1EB737E30063163B /* AudioOutputDelegate.h */; };
+		0B2E4EA41EB737E30063163B /* FileUtil.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E6F1EB737E30063163B /* FileUtil.hpp */; };
+		0B2E4EA81EB737E30063163B /* Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E731EB737E30063163B /* Macros.h */; };
+		0B2E4EA91EB737E30063163B /* PacketReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E741EB737E30063163B /* PacketReader.cpp */; };
+		0B2E4EAA1EB737E30063163B /* PacketReader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E751EB737E30063163B /* PacketReader.hpp */; };
+		0B2E4EB21EB737E30063163B /* CCPlatformConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E7F1EB737E30063163B /* CCPlatformConfig.h */; };
+		0B2E4EB31EB737E30063163B /* GL.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E801EB737E30063163B /* GL.h */; };
+		0B2E4EB41EB737E30063163B /* AudioQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E821EB737E30063163B /* AudioQueue.cpp */; };
+		0B2E4EB51EB737E30063163B /* AudioQueue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E831EB737E30063163B /* AudioQueue.hpp */; };
+		0B2E4EB61EB737E30063163B /* CCGL-ios.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E841EB737E30063163B /* CCGL-ios.h */; };
+		0B2E4EB71EB737E30063163B /* main.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E851EB737E30063163B /* main.h */; };
+		0B2E4EB81EB737E30063163B /* SL.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E861EB737E30063163B /* SL.h */; };
+		0B2E4EB91EB737E30063163B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E871EB737E30063163B /* Player.cpp */; };
+		0B2E4EBA1EB737E30063163B /* Player.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E881EB737E30063163B /* Player.hpp */; };
+		0B2E4EBB1EB737E30063163B /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E891EB737E30063163B /* Renderer.cpp */; };
+		0B2E4EBC1EB737E30063163B /* Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E8A1EB737E30063163B /* Renderer.h */; };
+		0B2E4EBF1EB737E30063163B /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E8D1EB737E30063163B /* Shader.cpp */; };
+		0B2E4EC01EB737E30063163B /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E8E1EB737E30063163B /* Shader.h */; };
+		0B2E4EC11EB737E30063163B /* Shader_pano.frag in Resources */ = {isa = PBXBuildFile; fileRef = 0B2E4E901EB737E30063163B /* Shader_pano.frag */; };
+		0B2E4EC21EB737E30063163B /* Shader_pano_low.frag in Resources */ = {isa = PBXBuildFile; fileRef = 0B2E4E911EB737E30063163B /* Shader_pano_low.frag */; };
+		0B2E4EC31EB737E30063163B /* Shader_plane.frag in Resources */ = {isa = PBXBuildFile; fileRef = 0B2E4E921EB737E30063163B /* Shader_plane.frag */; };
+		0B2E4EC41EB737E30063163B /* Shader_Position.vert in Resources */ = {isa = PBXBuildFile; fileRef = 0B2E4E931EB737E30063163B /* Shader_Position.vert */; };
+		0B2E4EC51EB737E30063163B /* Shader_Position_low.vert in Resources */ = {isa = PBXBuildFile; fileRef = 0B2E4E941EB737E30063163B /* Shader_Position_low.vert */; };
+		0B2E4EC61EB737E30063163B /* std.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E951EB737E30063163B /* std.h */; };
+		0B2E4EC71EB737E30063163B /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E961EB737E30063163B /* Util.cpp */; };
+		0B2E4EC81EB737E30063163B /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E971EB737E30063163B /* Util.h */; };
+		0B2E4EC91EB737E30063163B /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E981EB737E30063163B /* Video.cpp */; };
+		0B2E4ECA1EB737E30063163B /* Video.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E991EB737E30063163B /* Video.hpp */; };
+		0B2E4ECB1EB737E30063163B /* VideoDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E9A1EB737E30063163B /* VideoDecoder.cpp */; };
+		0B2E4ECC1EB737E30063163B /* VideoDecoder.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E9B1EB737E30063163B /* VideoDecoder.hpp */; };
+		0B2E4ECD1EB737E30063163B /* VideoFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4E9C1EB737E30063163B /* VideoFile.cpp */; };
+		0B2E4ECE1EB737E30063163B /* VideoFile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0B2E4E9D1EB737E30063163B /* VideoFile.hpp */; };
+		0B2E4EE71EB7494E0063163B /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2E4EDF1EB73D940063163B /* VideoToolbox.framework */; };
+		0B2E4EE91EB7495C0063163B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2E4EE81EB7495C0063163B /* AudioToolbox.framework */; };
+		0B2E4EED1EB7497E0063163B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2E4EEC1EB7497E0063163B /* CoreVideo.framework */; };
+		0B2E4EF11EB74AAA0063163B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2E4EF01EB74AAA0063163B /* OpenGLES.framework */; };
+		0B2E4EF31EB74EA10063163B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2E4EF21EB74EA10063163B /* CoreMedia.framework */; };
+		0B2E4EF51EB74FCB0063163B /* FileUtil_Apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4EF41EB74FCB0063163B /* FileUtil_Apple.mm */; };
+		0B2E4EF71EB74FFE0063163B /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E4EF61EB74FFE0063163B /* main.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0B2E4E571EB7332B0063163B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B2E4E431EB7332A0063163B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B2E4E4B1EB7332A0063163B;
+			remoteInfo = libvr;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0B2E4E4C1EB7332A0063163B /* libvr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libvr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B2E4E4F1EB7332A0063163B /* libvr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvr.h; sourceTree = "<group>"; };
+		0B2E4E501EB7332A0063163B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B2E4E551EB7332B0063163B /* libvrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libvrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B2E4E5A1EB7332B0063163B /* libvrTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libvrTests.m; sourceTree = "<group>"; };
+		0B2E4E5C1EB7332B0063163B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B2E4E691EB737E30063163B /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
+		0B2E4E6A1EB737E30063163B /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Audio.h; sourceTree = "<group>"; };
+		0B2E4E6B1EB737E30063163B /* AudioDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDecoder.cpp; sourceTree = "<group>"; };
+		0B2E4E6C1EB737E30063163B /* AudioDecoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDecoder.hpp; sourceTree = "<group>"; };
+		0B2E4E6D1EB737E30063163B /* AudioOutputDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutputDelegate.h; sourceTree = "<group>"; };
+		0B2E4E6F1EB737E30063163B /* FileUtil.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FileUtil.hpp; sourceTree = "<group>"; };
+		0B2E4E731EB737E30063163B /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
+		0B2E4E741EB737E30063163B /* PacketReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketReader.cpp; sourceTree = "<group>"; };
+		0B2E4E751EB737E30063163B /* PacketReader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PacketReader.hpp; sourceTree = "<group>"; };
+		0B2E4E7F1EB737E30063163B /* CCPlatformConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPlatformConfig.h; sourceTree = "<group>"; };
+		0B2E4E801EB737E30063163B /* GL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL.h; sourceTree = "<group>"; };
+		0B2E4E821EB737E30063163B /* AudioQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioQueue.cpp; sourceTree = "<group>"; };
+		0B2E4E831EB737E30063163B /* AudioQueue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioQueue.hpp; sourceTree = "<group>"; };
+		0B2E4E841EB737E30063163B /* CCGL-ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCGL-ios.h"; sourceTree = "<group>"; };
+		0B2E4E851EB737E30063163B /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		0B2E4E861EB737E30063163B /* SL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SL.h; sourceTree = "<group>"; };
+		0B2E4E871EB737E30063163B /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		0B2E4E881EB737E30063163B /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
+		0B2E4E891EB737E30063163B /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
+		0B2E4E8A1EB737E30063163B /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
+		0B2E4E8D1EB737E30063163B /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		0B2E4E8E1EB737E30063163B /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		0B2E4E901EB737E30063163B /* Shader_pano.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader_pano.frag; sourceTree = "<group>"; };
+		0B2E4E911EB737E30063163B /* Shader_pano_low.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader_pano_low.frag; sourceTree = "<group>"; };
+		0B2E4E921EB737E30063163B /* Shader_plane.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader_plane.frag; sourceTree = "<group>"; };
+		0B2E4E931EB737E30063163B /* Shader_Position.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader_Position.vert; sourceTree = "<group>"; };
+		0B2E4E941EB737E30063163B /* Shader_Position_low.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader_Position_low.vert; sourceTree = "<group>"; };
+		0B2E4E951EB737E30063163B /* std.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = std.h; sourceTree = "<group>"; };
+		0B2E4E961EB737E30063163B /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
+		0B2E4E971EB737E30063163B /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		0B2E4E981EB737E30063163B /* Video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Video.cpp; sourceTree = "<group>"; };
+		0B2E4E991EB737E30063163B /* Video.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Video.hpp; sourceTree = "<group>"; };
+		0B2E4E9A1EB737E30063163B /* VideoDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoDecoder.cpp; sourceTree = "<group>"; };
+		0B2E4E9B1EB737E30063163B /* VideoDecoder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VideoDecoder.hpp; sourceTree = "<group>"; };
+		0B2E4E9C1EB737E30063163B /* VideoFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoFile.cpp; sourceTree = "<group>"; };
+		0B2E4E9D1EB737E30063163B /* VideoFile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VideoFile.hpp; sourceTree = "<group>"; };
+		0B2E4EDF1EB73D940063163B /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		0B2E4EE81EB7495C0063163B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0B2E4EEC1EB7497E0063163B /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		0B2E4EF01EB74AAA0063163B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		0B2E4EF21EB74EA10063163B /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		0B2E4EF41EB74FCB0063163B /* FileUtil_Apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FileUtil_Apple.mm; sourceTree = "<group>"; };
+		0B2E4EF61EB74FFE0063163B /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0B2E4E481EB7332A0063163B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B2E4EF31EB74EA10063163B /* CoreMedia.framework in Frameworks */,
+				0B2E4EF11EB74AAA0063163B /* OpenGLES.framework in Frameworks */,
+				0B2E4EED1EB7497E0063163B /* CoreVideo.framework in Frameworks */,
+				0B2E4EE91EB7495C0063163B /* AudioToolbox.framework in Frameworks */,
+				0B2E4EE71EB7494E0063163B /* VideoToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B2E4E521EB7332B0063163B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B2E4E561EB7332B0063163B /* libvr.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B2E4E421EB7332A0063163B = {
+			isa = PBXGroup;
+			children = (
+				0B2E4E4E1EB7332A0063163B /* libvr */,
+				0B2E4E591EB7332B0063163B /* libvrTests */,
+				0B2E4E4D1EB7332A0063163B /* Products */,
+				0B2E4EDE1EB73D930063163B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0B2E4E4D1EB7332A0063163B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0B2E4E4C1EB7332A0063163B /* libvr.framework */,
+				0B2E4E551EB7332B0063163B /* libvrTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0B2E4E4E1EB7332A0063163B /* libvr */ = {
+			isa = PBXGroup;
+			children = (
+				0B2E4E681EB737E30063163B /* modules */,
+				0B2E4E4F1EB7332A0063163B /* libvr.h */,
+				0B2E4E501EB7332A0063163B /* Info.plist */,
+			);
+			path = libvr;
+			sourceTree = "<group>";
+		};
+		0B2E4E591EB7332B0063163B /* libvrTests */ = {
+			isa = PBXGroup;
+			children = (
+				0B2E4E5A1EB7332B0063163B /* libvrTests.m */,
+				0B2E4E5C1EB7332B0063163B /* Info.plist */,
+			);
+			path = libvrTests;
+			sourceTree = "<group>";
+		};
+		0B2E4E681EB737E30063163B /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				0B2E4E691EB737E30063163B /* Audio.cpp */,
+				0B2E4E6A1EB737E30063163B /* Audio.h */,
+				0B2E4E6B1EB737E30063163B /* AudioDecoder.cpp */,
+				0B2E4E6C1EB737E30063163B /* AudioDecoder.hpp */,
+				0B2E4E6D1EB737E30063163B /* AudioOutputDelegate.h */,
+				0B2E4E6F1EB737E30063163B /* FileUtil.hpp */,
+				0B2E4E731EB737E30063163B /* Macros.h */,
+				0B2E4E741EB737E30063163B /* PacketReader.cpp */,
+				0B2E4E751EB737E30063163B /* PacketReader.hpp */,
+				0B2E4E761EB737E30063163B /* platform */,
+				0B2E4E871EB737E30063163B /* Player.cpp */,
+				0B2E4E881EB737E30063163B /* Player.hpp */,
+				0B2E4E891EB737E30063163B /* Renderer.cpp */,
+				0B2E4E8A1EB737E30063163B /* Renderer.h */,
+				0B2E4E8D1EB737E30063163B /* Shader.cpp */,
+				0B2E4E8E1EB737E30063163B /* Shader.h */,
+				0B2E4E8F1EB737E30063163B /* shaders */,
+				0B2E4E951EB737E30063163B /* std.h */,
+				0B2E4E961EB737E30063163B /* Util.cpp */,
+				0B2E4E971EB737E30063163B /* Util.h */,
+				0B2E4E981EB737E30063163B /* Video.cpp */,
+				0B2E4E991EB737E30063163B /* Video.hpp */,
+				0B2E4E9A1EB737E30063163B /* VideoDecoder.cpp */,
+				0B2E4E9B1EB737E30063163B /* VideoDecoder.hpp */,
+				0B2E4E9C1EB737E30063163B /* VideoFile.cpp */,
+				0B2E4E9D1EB737E30063163B /* VideoFile.hpp */,
+			);
+			path = modules;
+			sourceTree = "<group>";
+		};
+		0B2E4E761EB737E30063163B /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				0B2E4E7F1EB737E30063163B /* CCPlatformConfig.h */,
+				0B2E4E801EB737E30063163B /* GL.h */,
+				0B2E4E811EB737E30063163B /* ios */,
+				0B2E4E861EB737E30063163B /* SL.h */,
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
+		0B2E4E811EB737E30063163B /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				0B2E4EF41EB74FCB0063163B /* FileUtil_Apple.mm */,
+				0B2E4E821EB737E30063163B /* AudioQueue.cpp */,
+				0B2E4E831EB737E30063163B /* AudioQueue.hpp */,
+				0B2E4E841EB737E30063163B /* CCGL-ios.h */,
+				0B2E4E851EB737E30063163B /* main.h */,
+				0B2E4EF61EB74FFE0063163B /* main.mm */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		0B2E4E8F1EB737E30063163B /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				0B2E4E901EB737E30063163B /* Shader_pano.frag */,
+				0B2E4E911EB737E30063163B /* Shader_pano_low.frag */,
+				0B2E4E921EB737E30063163B /* Shader_plane.frag */,
+				0B2E4E931EB737E30063163B /* Shader_Position.vert */,
+				0B2E4E941EB737E30063163B /* Shader_Position_low.vert */,
+			);
+			path = shaders;
+			sourceTree = "<group>";
+		};
+		0B2E4EDE1EB73D930063163B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B2E4EF21EB74EA10063163B /* CoreMedia.framework */,
+				0B2E4EF01EB74AAA0063163B /* OpenGLES.framework */,
+				0B2E4EEC1EB7497E0063163B /* CoreVideo.framework */,
+				0B2E4EE81EB7495C0063163B /* AudioToolbox.framework */,
+				0B2E4EDF1EB73D940063163B /* VideoToolbox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0B2E4E491EB7332A0063163B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B2E4EC61EB737E30063163B /* std.h in Headers */,
+				0B2E4EC81EB737E30063163B /* Util.h in Headers */,
+				0B2E4EB81EB737E30063163B /* SL.h in Headers */,
+				0B2E4EB61EB737E30063163B /* CCGL-ios.h in Headers */,
+				0B2E4EB71EB737E30063163B /* main.h in Headers */,
+				0B2E4EBA1EB737E30063163B /* Player.hpp in Headers */,
+				0B2E4EB21EB737E30063163B /* CCPlatformConfig.h in Headers */,
+				0B2E4EAA1EB737E30063163B /* PacketReader.hpp in Headers */,
+				0B2E4EA81EB737E30063163B /* Macros.h in Headers */,
+				0B2E4EC01EB737E30063163B /* Shader.h in Headers */,
+				0B2E4E5D1EB7332B0063163B /* libvr.h in Headers */,
+				0B2E4ECC1EB737E30063163B /* VideoDecoder.hpp in Headers */,
+				0B2E4ECA1EB737E30063163B /* Video.hpp in Headers */,
+				0B2E4EA21EB737E30063163B /* AudioOutputDelegate.h in Headers */,
+				0B2E4EBC1EB737E30063163B /* Renderer.h in Headers */,
+				0B2E4ECE1EB737E30063163B /* VideoFile.hpp in Headers */,
+				0B2E4EA41EB737E30063163B /* FileUtil.hpp in Headers */,
+				0B2E4EB31EB737E30063163B /* GL.h in Headers */,
+				0B2E4EA11EB737E30063163B /* AudioDecoder.hpp in Headers */,
+				0B2E4E9F1EB737E30063163B /* Audio.h in Headers */,
+				0B2E4EB51EB737E30063163B /* AudioQueue.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0B2E4E4B1EB7332A0063163B /* libvr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B2E4E601EB7332B0063163B /* Build configuration list for PBXNativeTarget "libvr" */;
+			buildPhases = (
+				0B2E4E471EB7332A0063163B /* Sources */,
+				0B2E4E481EB7332A0063163B /* Frameworks */,
+				0B2E4E491EB7332A0063163B /* Headers */,
+				0B2E4E4A1EB7332A0063163B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libvr;
+			productName = libvr;
+			productReference = 0B2E4E4C1EB7332A0063163B /* libvr.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0B2E4E541EB7332B0063163B /* libvrTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B2E4E631EB7332B0063163B /* Build configuration list for PBXNativeTarget "libvrTests" */;
+			buildPhases = (
+				0B2E4E511EB7332B0063163B /* Sources */,
+				0B2E4E521EB7332B0063163B /* Frameworks */,
+				0B2E4E531EB7332B0063163B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0B2E4E581EB7332B0063163B /* PBXTargetDependency */,
+			);
+			name = libvrTests;
+			productName = libvrTests;
+			productReference = 0B2E4E551EB7332B0063163B /* libvrTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0B2E4E431EB7332A0063163B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = "单强";
+				TargetAttributes = {
+					0B2E4E4B1EB7332A0063163B = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+					0B2E4E541EB7332B0063163B = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 0B2E4E461EB7332A0063163B /* Build configuration list for PBXProject "libvr" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0B2E4E421EB7332A0063163B;
+			productRefGroup = 0B2E4E4D1EB7332A0063163B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0B2E4E4B1EB7332A0063163B /* libvr */,
+				0B2E4E541EB7332B0063163B /* libvrTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0B2E4E4A1EB7332A0063163B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B2E4EC11EB737E30063163B /* Shader_pano.frag in Resources */,
+				0B2E4EC31EB737E30063163B /* Shader_plane.frag in Resources */,
+				0B2E4EC21EB737E30063163B /* Shader_pano_low.frag in Resources */,
+				0B2E4EC51EB737E30063163B /* Shader_Position_low.vert in Resources */,
+				0B2E4EC41EB737E30063163B /* Shader_Position.vert in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B2E4E531EB7332B0063163B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0B2E4E471EB7332A0063163B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B2E4EF71EB74FFE0063163B /* main.mm in Sources */,
+				0B2E4EF51EB74FCB0063163B /* FileUtil_Apple.mm in Sources */,
+				0B2E4EBB1EB737E30063163B /* Renderer.cpp in Sources */,
+				0B2E4EC91EB737E30063163B /* Video.cpp in Sources */,
+				0B2E4EA91EB737E30063163B /* PacketReader.cpp in Sources */,
+				0B2E4ECB1EB737E30063163B /* VideoDecoder.cpp in Sources */,
+				0B2E4ECD1EB737E30063163B /* VideoFile.cpp in Sources */,
+				0B2E4EB41EB737E30063163B /* AudioQueue.cpp in Sources */,
+				0B2E4EBF1EB737E30063163B /* Shader.cpp in Sources */,
+				0B2E4EB91EB737E30063163B /* Player.cpp in Sources */,
+				0B2E4EC71EB737E30063163B /* Util.cpp in Sources */,
+				0B2E4E9E1EB737E30063163B /* Audio.cpp in Sources */,
+				0B2E4EA01EB737E30063163B /* AudioDecoder.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B2E4E511EB7332B0063163B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B2E4E5B1EB7332B0063163B /* libvrTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0B2E4E581EB7332B0063163B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B2E4E4B1EB7332A0063163B /* libvr */;
+			targetProxy = 0B2E4E571EB7332B0063163B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0B2E4E5E1EB7332B0063163B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0B2E4E5F1EB7332B0063163B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		0B2E4E611EB7332B0063163B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					CC_TARGET_OS_IPHONE,
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/libvr/modules",
+					"$(SRCROOT)/libvr/deps/glm",
+					"$(SRCROOT)/libvr/deps/ffmpeg/include/ios",
+				);
+				INFOPLIST_FILE = libvr/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = $SRCROOT/libvr/deps/ffmpeg/prebuilt/ios;
+				OTHER_LDFLAGS = (
+					"-lavcodec",
+					"-lavformat",
+					"-lavfilter",
+					"-lswresample",
+					"-lavutil",
+					"-lswscale",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.shanqiang.libvr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		0B2E4E621EB7332B0063163B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREPROCESSOR_DEFINITIONS = CC_TARGET_OS_IPHONE;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/libvr/modules",
+					"$(SRCROOT)/libvr/deps/glm",
+					"$(SRCROOT)/libvr/deps/ffmpeg/include/ios",
+				);
+				INFOPLIST_FILE = libvr/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = $SRCROOT/libvr/deps/ffmpeg/prebuilt/ios;
+				OTHER_LDFLAGS = (
+					"-lavcodec",
+					"-lavformat",
+					"-lavfilter",
+					"-lswresample",
+					"-lavutil",
+					"-lswscale",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.shanqiang.libvr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		0B2E4E641EB7332B0063163B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = libvrTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shanqiang.libvrTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0B2E4E651EB7332B0063163B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = libvrTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shanqiang.libvrTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0B2E4E461EB7332A0063163B /* Build configuration list for PBXProject "libvr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B2E4E5E1EB7332B0063163B /* Debug */,
+				0B2E4E5F1EB7332B0063163B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0B2E4E601EB7332B0063163B /* Build configuration list for PBXNativeTarget "libvr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B2E4E611EB7332B0063163B /* Debug */,
+				0B2E4E621EB7332B0063163B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		0B2E4E631EB7332B0063163B /* Build configuration list for PBXNativeTarget "libvrTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B2E4E641EB7332B0063163B /* Debug */,
+				0B2E4E651EB7332B0063163B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0B2E4E431EB7332A0063163B /* Project object */;
+}
