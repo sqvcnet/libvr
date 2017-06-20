@@ -529,7 +529,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -540,14 +542,14 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/libvr/modules",
-					"$(SRCROOT)/libvr/deps/glm",
-					"$(SRCROOT)/libvr/deps/ffmpeg/include/ios",
+					"$(SRCROOT)/libvr/third_party/glm",
+					"$(SRCROOT)/libvr/third_party/ffmpeg/include/ios",
 				);
 				INFOPLIST_FILE = libvr/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = $SRCROOT/libvr/deps/ffmpeg/prebuilt/ios;
+				LIBRARY_SEARCH_PATHS = $SRCROOT/libvr/third_party/ffmpeg/prebuilt/ios;
 				OTHER_LDFLAGS = (
 					"-lavcodec",
 					"-lavformat",
@@ -559,6 +561,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.shanqiang.libvr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -567,21 +570,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_PREPROCESSOR_DEFINITIONS = CC_TARGET_OS_IPHONE;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/libvr/modules",
-					"$(SRCROOT)/libvr/deps/glm",
-					"$(SRCROOT)/libvr/deps/ffmpeg/include/ios",
+					"$(SRCROOT)/libvr/third_party/glm",
+					"$(SRCROOT)/libvr/third_party/ffmpeg/include/ios",
 				);
 				INFOPLIST_FILE = libvr/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = $SRCROOT/libvr/deps/ffmpeg/prebuilt/ios;
+				LIBRARY_SEARCH_PATHS = $SRCROOT/libvr/third_party/ffmpeg/prebuilt/ios;
 				OTHER_LDFLAGS = (
 					"-lavcodec",
 					"-lavformat",
@@ -593,6 +598,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.shanqiang.libvr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -636,6 +642,7 @@
 				0B2E4E621EB7332B0063163B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0B2E4E631EB7332B0063163B /* Build configuration list for PBXNativeTarget "libvrTests" */ = {
 			isa = XCConfigurationList;
@@ -644,6 +651,7 @@
 				0B2E4E651EB7332B0063163B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
