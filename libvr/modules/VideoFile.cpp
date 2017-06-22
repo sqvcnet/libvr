@@ -145,6 +145,15 @@ int VideoFile::open(const string & srcPath) {
 //    _avFormatCtx->flags |= AVFMT_FLAG_NONBLOCK;
     _avFormatCtx->interrupt_callback.callback = VideoFile::openCb;
     _avFormatCtx->interrupt_callback.opaque = this;
+    
+    static bool initOnce = false;
+    if (!initOnce) {
+        av_register_all();
+        avcodec_register_all();
+        avformat_network_init();
+        initOnce = true;
+    }
+    
     int ret = 0;
     if((ret = avformat_open_input(&_avFormatCtx, path.c_str(), nullptr, nullptr)) != 0) {
         char str[1024] = {'\0'};
