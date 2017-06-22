@@ -23,6 +23,7 @@ public:
     static void setassetmanager(AAssetManager* a);
     static void setWritablePath(const char *path);
 #endif
+    static string getFullPath(const std::string& filename);
     static string getWritablePath();
     static string getData(const std::string& filename);
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

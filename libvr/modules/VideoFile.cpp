@@ -8,6 +8,7 @@
 #include "main.h"
 #include "Util.h"
 #include "VideoFile.hpp"
+#include "FileUtil.hpp"
 
 namespace geeek {
     
@@ -131,10 +132,11 @@ void VideoFile::abortOpen() {
     _openRet = -1;
 }
     
-int VideoFile::open(const string & path) {
+int VideoFile::open(const string & srcPath) {
     //确保释放资源
     close();
     
+    string path = FileUtil::getFullPath(srcPath);
     LOGD("VideoFile::open %s", path.c_str());
 
     _openRet = 0;

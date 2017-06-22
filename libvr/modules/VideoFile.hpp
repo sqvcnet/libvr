@@ -18,7 +18,7 @@ public:
     VideoFile();
     virtual ~VideoFile();
 
-    int open(const string & path);
+    int open(const string & srcPath);
     void close();
     void abortOpen();
     

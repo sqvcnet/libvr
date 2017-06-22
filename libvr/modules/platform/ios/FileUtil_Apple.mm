@@ -20,22 +20,27 @@ string FileUtil::getWritablePath() {
     return strRet;
 }
 
-string FileUtil::getData(const std::string& filename)
-{
-    string ret;
+string FileUtil::getFullPath(const std::string& filename) {
     if (filename.empty()) {
-        return ret;
+        return "";
     }
-
     string fullPath = filename;
-
-    if (fullPath[0] != '/') {
+    
+    if (fullPath[0] == '.') {
         fullPath = [[[NSBundle mainBundle] bundlePath] UTF8String];
         fullPath += "/" + filename;
     }
     
-    do
-    {
+    return fullPath;
+}
+
+string FileUtil::getData(const std::string& filename)
+{
+    string ret;
+
+    string fullPath = getFullPath(filename);
+    
+    do {
         const char* mode = nullptr;
         mode = "rb";
 
