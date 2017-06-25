@@ -106,7 +106,6 @@ void Audio::notify() {
 }
 
 void Audio::start() {
-    lock_guard<mutex> lock(_mutexFrames);
     if (_isExitThread == false) {
         return;
     }
@@ -115,6 +114,7 @@ void Audio::start() {
     _audioOutput.open(_channels, _sampleRate);
     LOGD("AudioOutput has been opened: channels: %d, sampleRate: %d", _channels, _sampleRate);
     
+    lock_guard<mutex> lock(_mutexFrames);
     _got = 0;
     _curPts = AV_NOPTS_VALUE;
     _audioThread = new thread([&]()->void {

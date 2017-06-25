@@ -101,7 +101,7 @@ void VideoDecoder::unsupportHWCodec() {
     if (_curCodecName == "h264_mediacodec") {
         _isSupportAvcHWCodec = false;
     }
-    //iPhone都支持硬解，只是性能不同。交给用户选择。否则一次 avcodec_decode_video2 error 会导致切成软解，与界面显示不同步
+    //iPhone都支持硬解，只是性能不同。交给用户选择
     //    _canHWAccel = false;
 }
 

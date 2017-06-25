@@ -125,7 +125,7 @@ void Video::open(int width, int height) {
 }
 
 void Video::flush() {
-    LOGD("Video::consumeTexture flush");
+    lock_guard<mutex> lock(_mutexTextures);
     _ringQueueFront = _ringQueueRear = 0;
     _ringQueueEmpty = true;
     LOGD("Video::consumeTexture flushed");
