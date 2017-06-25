@@ -65,6 +65,9 @@ void PacketReader::stop() {
         LOGD("PacketReader thread has been joined");
     }
     
+    //the reader frame thread has been stoped, but the audio decoder and video decoder threads may be also run
+    std::lock_guard<mutex> lockA(_mutexAudioPackets);
+    std::lock_guard<mutex> lockV(_mutexVideoPackets);
     freePackets(&_audioPackets);
     freePackets(&_videoPackets);
     
@@ -108,7 +111,7 @@ void PacketReader::start() {
                         break;
                     default:
                         //error
-                        _player->setLastError(-3);
+                        _player->setLastError(Player::Error::READ_FRAME_ERROR);
                         //另一个线程将_lastError取走后会将它赋值为0，这会导致失败情况下外层循环依然有机会执行到
                         //失败情况下的继续执行可能会导致crash，帮直接 return true;
                         return true;
@@ -137,53 +140,37 @@ bool PacketReader::atLeast() {
     }
 }
 
-void PacketReader::flushAudioPackets() {
-    _mutexAudioPackets.lock();
-    freePackets(&_audioPackets);
-    _mutexAudioPackets.unlock();
-}
-
-void PacketReader::flushVideoPackets() {
-    _mutexVideoPackets.lock();
-    freePackets(&_videoPackets);
-    _mutexVideoPackets.unlock();
-}
-
 void PacketReader::produceAudioPacket(AVPacket *packet) {
-    _mutexAudioPackets.lock();
+    std::lock_guard<mutex> lock(_mutexAudioPackets);
     _audioPackets.push(packet);
-    _mutexAudioPackets.unlock();
     _audio->notify();
 }
 
 void PacketReader::consumeAudioPacket(AVPacket **packet) {
-    _mutexAudioPackets.lock();
+    std::lock_guard<mutex> lock(_mutexAudioPackets);
     if (!_audioPackets.empty()) {
         *packet = _audioPackets.front();
         _audioPackets.pop();
     } else {
         *packet = nullptr;
     }
-    _mutexAudioPackets.unlock();
     _cv.notify_one();
 }
 
 void PacketReader::produceVideoPacket(AVPacket *packet) {
-    _mutexVideoPackets.lock();
+    std::lock_guard<mutex> lock(_mutexVideoPackets);
     _videoPackets.push(packet);
-    _mutexVideoPackets.unlock();
     _video->notify();
 }
 
 void PacketReader::consumeVideoPacket(AVPacket **packet) {
-    _mutexVideoPackets.lock();
+    std::lock_guard<mutex> lock(_mutexVideoPackets);
     if (!_videoPackets.empty()) {
         *packet = _videoPackets.front();
         _videoPackets.pop();
     } else {
         *packet = nullptr;
     }
-    _mutexVideoPackets.unlock();
     _cv.notify_one();
 }
     

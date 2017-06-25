@@ -132,8 +132,8 @@ void VideoFile::abortOpen() {
     _openRet = -1;
 }
     
-int VideoFile::open(const string & srcPath) {
-    //确保释放资源
+void VideoFile::open(const string & srcPath) {
+    //assure the open resource be released
     close();
     
     string path = FileUtil::getFullPath(srcPath);
@@ -155,16 +155,19 @@ int VideoFile::open(const string & srcPath) {
     }
     
     int ret = 0;
+    char str[1024] = {'\0'};
     if((ret = avformat_open_input(&_avFormatCtx, path.c_str(), nullptr, nullptr)) != 0) {
-        char str[1024] = {'\0'};
         av_strerror(ret, str, 1024);
-        LOGE("avformat_open_input error: %s", str);
-        return ret;
+        throw runtime_error(string("avformat_open_input error: ") + str);
+        return;
     }
     
     // Retrieve stream information
-    if((ret = avformat_find_stream_info(_avFormatCtx, NULL)) < 0)
-        return ret;
+    if((ret = avformat_find_stream_info(_avFormatCtx, NULL)) < 0) {
+        av_strerror(ret, str, 1024);
+        throw runtime_error(string("avformat_find_stream_info error: ") + str);
+        return;
+    }
     
     // Dump information about file onto standard error
     av_dump_format(_avFormatCtx, 0, path.c_str(), 0);
@@ -184,7 +187,7 @@ int VideoFile::open(const string & srcPath) {
         }
     }
 
-    return 0;
+    return;
 }
 
 AVCodecContext* VideoFile::getAudioCodec() {

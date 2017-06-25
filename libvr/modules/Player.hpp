@@ -24,20 +24,23 @@ namespace geeek {
     
 class Player: public SyncDelegate {
 public:
-    Player(void *playerView);
+    enum class Error {NO_ERROR = 0, DECODE_ERROR = -1, READ_FRAME_ERROR = -3};
+    using OpenCallback = function<void(const string &)>;
+    
+public:
+    Player();
     virtual ~Player();
     
     Renderer *getRenderer();
-    bool open(const string &path);
-    void reopen();
+    void open(const string &path, OpenCallback callback);
     void play();
     void pause();
     void setCodec(int codec);
     void seek(double percent);
     void close();
     double getProgress();
-    void setLastError(int err);
-    int getLastError();
+    void setLastError(Error err);
+    Error getLastError();
     double getCacheProgress();
     float getTotalTime();
     
@@ -45,14 +48,10 @@ public:
     virtual double computeVideoClock(int64_t nbFrames);
     
 private:
-    bool open();
-    bool opened();
+    void open();
+    void opened();
     static void openedInMainThread(void *param);
-    static void stop(void *self);
-    static void start(void *self);
-    
-    static void inMainThread(void *param);
-    void pauseRenderer(bool isPause);
+    void start();
     
 private:
     VideoFile _videoFile;
@@ -77,10 +76,9 @@ private:
     int _dstFrameHeight;
     string _decodedJpgPath;
     double _startPlayTime;
-    void *_playerView;
-    double _seek;
-    bool _needPlay;
-    int _lastError;
+    Error _lastError;
+    string _openError;
+    OpenCallback _openCallback;
 };
     
 }//namespace geeek

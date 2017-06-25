@@ -19,7 +19,6 @@ Audio::Audio()
 ,_delegateSync(nullptr)
 ,_isExitThread(true)
 ,_got(0)
-,_isFlushing(false)
 ,_curPts(AV_NOPTS_VALUE)
 ,_audioThread(nullptr)
 ,_channels(0)
@@ -34,11 +33,14 @@ Audio::~Audio() {
 
 void Audio::stop() {
     pause();
-    _audioOutput.close();
+    flushSafe();
     LOGD("Audio has been stoped");
 }
 
 void Audio::pause() {
+    //mute and don't consume audio frames firstly
+    _audioOutput.close();
+    //stop to produce audio frames secondly
     _isExitThread = true;
     if (_audioThread) {
         _audioThread->join();
@@ -48,35 +50,14 @@ void Audio::pause() {
     }
 }
 
-//该函数暂时没用，以后可能会用到，这个函数可以不用停线程直接flush
-void Audio::flush() {
-    //必须在stop之后调用，否则刚flush完立刻又会生产进去
-    //必须在flush完之后才可以停audioOutput线程(_audioOutput.close())，否则永远等不到_isFlushing为false
-    _mutexFrames.lock();
-    if (_audioOutput.isOpened()) {
-        _mutexFrames.unlock();
-        _isFlushing = true;
-        while (_isFlushing) {
-            this_thread::sleep_for(chrono::milliseconds(50));
-            LOGD("Audio flushing...");
-        }
-    } else {
-        flushUnSafe();
-        _mutexFrames.unlock();
-    }
-    LOGD("Audio flushed");
-}
-
-void Audio::flushUnSafe() {
+void Audio::flushSafe() {
+    lock_guard<mutex> lock(_mutexFrames);
     list<PtsFrame> empty;
     swap(_frames, empty);
-    _isFlushing = false;
 }
 
 void Audio::close() {
     stop();
-    //stop会等待到真正结束本线程，并且等待到真正结束声音线程，所以可以不加锁的直接flushUnSafe
-    flushUnSafe();
     LOGD("Audio has been closed");
 }
 
@@ -89,7 +70,6 @@ void Audio::init(AudioDelegate *delegateAudio, SyncDelegate *delegateSync) {
 void Audio::open(int channels, int sampleRate) {
     _channels = channels;
     _sampleRate = sampleRate;
-//    _audioOutput.open(_channels, _sampleRate);
     LOGD("Audio has been opened: channels: %d, sampleRate: %d", _channels, _sampleRate);
 }
 
@@ -98,11 +78,6 @@ int64_t Audio::getCurPts() {
 }
 
 void Audio::consumeFrames(int count) {
-    _mutexFrames.lock();
-    if (_isFlushing) {
-        flushUnSafe();
-    }
-    _mutexFrames.unlock();
     while (count > 0 && _got > 0) {
         consumeFrame();
         count--;
@@ -131,6 +106,7 @@ void Audio::notify() {
 }
 
 void Audio::start() {
+    lock_guard<mutex> lock(_mutexFrames);
     if (_isExitThread == false) {
         return;
     }
@@ -139,9 +115,7 @@ void Audio::start() {
     _audioOutput.open(_channels, _sampleRate);
     LOGD("AudioOutput has been opened: channels: %d, sampleRate: %d", _channels, _sampleRate);
     
-    _mutexFrames.lock();
     _got = 0;
-    _mutexFrames.unlock();
     _curPts = AV_NOPTS_VALUE;
     _audioThread = new thread([&]()->void {
         while (!_isExitThread) {
@@ -163,13 +137,12 @@ void Audio::start() {
 }
 
 void Audio::produceFrame(PtsFrame &&frame) {
-    _mutexFrames.lock();
+    lock_guard<mutex> lock(_mutexFrames);
     _frames.push_back(std::move(frame));
-    _mutexFrames.unlock();
 }
 
 void Audio::getFrame(PtsFrame **frame) {
-    _mutexFrames.lock();
+    lock_guard<mutex> lock(_mutexFrames);
     *frame = nullptr;
     if (!_frames.empty() && _frames.size() > _got) {
         list<PtsFrame>::iterator it = _frames.begin();
@@ -184,17 +157,15 @@ void Audio::getFrame(PtsFrame **frame) {
     } else {
 //        LOGD("getFrame: null frame, _got: %d", _got);
     }
-    _mutexFrames.unlock();
 }
 
 void Audio::consumeFrame() {
-    _mutexFrames.lock();
+    lock_guard<mutex> lock(_mutexFrames);
     if (!_frames.empty() && _got > 0) {
         _frames.pop_front();
         _got--;
         notify();
     }
-    _mutexFrames.unlock();
 }
 
 }

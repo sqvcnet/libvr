@@ -31,8 +31,7 @@ public:
     virtual bool getFrame(char **data, size_t *size);
     
 private:
-    void flush();
-    void flushUnSafe();
+    void flushSafe();
     void produceFrame(PtsFrame &&frame);
     void getFrame(PtsFrame **frame);
     void consumeFrame();
@@ -42,7 +41,6 @@ private:
     SyncDelegate *_delegateSync;
     volatile bool _isExitThread;
     volatile int _got;
-    volatile bool _isFlushing;
     int64_t _curPts;
     thread *_audioThread;
     int _channels;

@@ -21,7 +21,7 @@ _texturesPanoId{0},
 _texturesPlaneId{0},
 _texWidth(0),
 _texHeight(0),
-_texPixFmt(YUV420P),
+_texPixFmt(PixFmt::YUV420P),
 _delegate(nullptr),
 _inited(false),
 _initedGL(false),
@@ -148,15 +148,10 @@ void Renderer::open(int texWidth, int texHeight) {
     _texWidth = texWidth;
     _texHeight = texHeight;
     _readyOpen = true;
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     while (_readyOpen) {
         this_thread::sleep_for(chrono::milliseconds(50));
-        LOGD("wait for Renderer open..., you should assure RENDERMODE_CONTINUOUSLY but not RENDERMODE_WHEN_DIRTY mode");
+        LOGD("wait for Renderer open..., you should assure Renderer::render be continuously called(set a breakpoint to detect this)");
     }
-#else
-    open();
-#endif
-    
 }
 
 void Renderer::close() {
@@ -177,15 +172,10 @@ void Renderer::close() {
 //    }
     
     _readyClose = true;
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     while (_readyClose) {
         this_thread::sleep_for(chrono::milliseconds(50));
-        LOGD("wait for Renderer close..., you should assure RENDERMODE_CONTINUOUSLY but not RENDERMODE_WHEN_DIRTY mode");
+        LOGD("wait for Renderer close..., you should assure Renderer::render be continuously called(set a breakpoint to detect this)");
     }
-#else
-    safeClose();
-#endif
-    
 }
 
 bool Renderer::isOpened() {
@@ -243,6 +233,29 @@ void Renderer::set3D() {
 
 void Renderer::set3DLeftRight() {
     setPlane();
+}
+
+void Renderer::setMode(Mode mode) {
+    switch (mode) {
+        case Renderer::Mode::MODE_3D:
+            set3D();
+            break;
+        case Renderer::Mode::MODE_360:
+            set360();
+            break;
+        case Renderer::Mode::MODE_360_UP_DOWN:
+            set360UpDown();
+            break;
+        case Renderer::Mode::MODE_3D_LEFT_RIGHT:
+            set3DLeftRight();
+            break;
+        case Renderer::Mode::MODE_360_SINGLE:
+            set360SingleView();
+            break;
+        default:
+            set360();
+            break;
+    }
 }
 
 void Renderer::setRotateDegree(int degree) {
@@ -383,7 +396,7 @@ bool Renderer::loadTexture() {
     _graphicBufV->unlock();
 #else
     
-    if (_texPixFmt == RGB) {
+    if (_texPixFmt == PixFmt::RGB) {
         glActiveTexture(GL_TEXTURE4);
         glBindTexture(GL_TEXTURE_2D, texturesId[4]);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _texWidth, _texHeight, GL_RGB, GL_UNSIGNED_BYTE, dataY);
@@ -392,7 +405,7 @@ bool Renderer::loadTexture() {
         glBindTexture(GL_TEXTURE_2D, texturesId[0]);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _texWidth, _texHeight, GL_LUMINANCE, GL_UNSIGNED_BYTE, dataY);
         
-        if (_texPixFmt == YUV420P) {
+        if (_texPixFmt == PixFmt::YUV420P) {
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, texturesId[1]);
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _texWidth/2, _texHeight/2, GL_LUMINANCE, GL_UNSIGNED_BYTE, dataU);

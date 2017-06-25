@@ -13,23 +13,21 @@
 
 namespace geeek {
     
-Player::Player(void *playerView)
+Player::Player()
     :_audioCurNbSamples(AV_NOPTS_VALUE)
-,_videoCurNbFrames(AV_NOPTS_VALUE)
-,_srcPixFmt(AV_PIX_FMT_NONE)
-,_dstPixFmt(AV_PIX_FMT_NONE)
-,_isOpened(false)
-,_openThread(nullptr)
-,_srcFrameWidth(-1)
-,_srcFrameHeight(-1)
-,_dstFrameWidth(0)
-,_dstFrameHeight(0)
-,_seek(-1.0)
-,_needPlay(false)
-,_lastError(0)
+    ,_videoCurNbFrames(AV_NOPTS_VALUE)
+    ,_srcPixFmt(AV_PIX_FMT_NONE)
+    ,_dstPixFmt(AV_PIX_FMT_NONE)
+    ,_isOpened(false)
+    ,_openThread(nullptr)
+    ,_srcFrameWidth(-1)
+    ,_srcFrameHeight(-1)
+    ,_dstFrameWidth(0)
+    ,_dstFrameHeight(0)
+    ,_lastError(Error::NO_ERROR)
+    ,_openCallback(nullptr)
 {
     _startPlayTime = av_gettime()/1000000.0;
-    _playerView = playerView;
     _packetReader = new PacketReader(this, &_videoFile, &_audio, &_video);
     _videoDecoder = new VideoDecoder(this, _packetReader);
     _audioDecoder = new AudioDecoder(_packetReader);
@@ -51,13 +49,6 @@ Player::~Player() {
     }
 }
 
-void Player::pauseRenderer(bool isPause) {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    ::pauseRenderer(_playerView, isPause);
-#endif
-    return;
-}
-
 Renderer *Player::getRenderer() {
     return _video.getRenderer();
 }
@@ -68,10 +59,6 @@ void Player::close() {
         _openThread->join();
         delete _openThread;
         _openThread = nullptr;
-    }
-    if (string::npos != _curPath.find(".jpg")) {
-        _video.close();
-        _decodedJpgPath = "";
     }
     if (!_isOpened) {
         return;
@@ -89,72 +76,78 @@ void Player::close() {
     _videoFile.close();
     
     _isOpened = false;
-    _needPlay = false;
-    _seek = -1.0;
-    _lastError = 0;
-    _playerView = nullptr;
+    _lastError = Error::NO_ERROR;
 }
-
-void Player::pause() {
-    LOGD("Player:pause start: %lld", av_gettime());
-    _audio.stop();
-    _video.stop();
-    LOGD("Player:pause end: %lld", av_gettime());
-//    pauseRenderer(true);
-    LOGD("Player has been paused");
-}
-
+    
 void Player::setCodec(int codec) {
     if (codec != _videoDecoder->getCodec()) {
         _videoDecoder->setCodec(codec);
     }
 }
+    
+void Player::pause() {
+    LOGD("Player:pause start: %lld", av_gettime());
+    _audio.pause();
+    _video.pause();
+    LOGD("Player:pause end: %lld", av_gettime());
+    LOGD("Player has been paused");
+}
 
-void Player::seek(double percent) {
-    if (string::npos != _curPath.find(".jpg")) {
+void Player::play() {
+    LOGD("Player::play");
+    if (!_isOpened) {
+        throw logic_error("play but not opened");
         return;
     }
-    if (/*percent <= 1e-6 ||
-        getProgress() <= 1e-6 ||*/
-        abs(percent - getProgress()) <= 1e-6) {
+    _audio.start();
+    _video.start();
+    if (_videoFile.hasVideo()) {
+        _startPlayTime = av_gettime()/1000000.0 - _videoCurNbFrames * 1.0 / _videoDecoder->getFps();
+        return;
+    }
+    if (_videoFile.hasAudio()) {
+        _startPlayTime = av_gettime()/1000000.0 - _audioCurNbSamples * 1.0 / _audioDecoder->getOutputSampleRate();
+        return;
+    }
+    throw runtime_error("neither audio nor video can be found");
+}
+    
+void Player::start() {
+    _audioCurNbSamples = 0;
+    _videoCurNbFrames = 0;
+    _packetReader->start();
+    _startPlayTime = av_gettime()/1000000.0;
+}
+    
+void Player::seek(double percent) {
+    if (!_isOpened) {
+        throw std::logic_error("seek but not opened");
         return;
     }
     LOGD("Player::seek start %f, progress: %f", percent, getCacheProgress());
-    if (_isOpened) {
-        //只有open的情况下，Renderer::render才会走到loadTexture，否则_video.close会死等，audio同理
-//        pause();
-        
-//        _audio.close();
-//        _video.close();
-//        flushAudioPackets();
-//        flushVideoPackets();
-        close();
-        
-        //_videoFile.seek(percent);
-        _seek = percent;
-        
-        open(_curPath);
-//        _audioNbSamples = 0;
-//        _videoNbFrames = 0;
-//        _audioCurNbSamples = 0;
-//        _videoCurNbFrames = 0;
-//        _videoDts = AV_NOPTS_VALUE;
-//        _audio.open(_videoFile.getChannels(), _outSampleRate);
-//        _video.open(_dstFrameWidth, _dstFrameHeight);
-        //        play();
-    } else {
-        _seek = percent;
-    }
+
+    //只有open的情况下，Renderer::render才会走到loadTexture，否则_video.close会死等，audio同理
+
+    _audio.stop();
+    _video.stop();
+    _packetReader->stop();
+
+    _packetReader->seek(percent);
+
+    start();
+    _audio.start();
+    _video.start();
+    
     LOGD("Player::seek end %f, progress: %f", percent, getCacheProgress());
 }
     
-int Player::getLastError() {
-    int err = _lastError;
-    _lastError = 0;
+Player::Error Player::getLastError() {
+    Player::Error err = _lastError;
+    _lastError = Error::NO_ERROR;
     return err;
 }
 
-void Player::setLastError(int err) {
+void Player::setLastError(Error err) {
     _lastError = err;
 }
     
@@ -184,8 +177,8 @@ double Player::computeAudioClock(int64_t nbSamples) {
         int outRate = _audioDecoder->getOutputSampleRate();
         if (nbSamples == AV_NOPTS_VALUE) {
             //video 最快可以提前1帧播放
-            double syncGap = 1.0 * _videoDecoder->getFps();
-            return 1.0 * _audioCurNbSamples / outRate + syncGap;
+            double oneFrameTime = 1.0 / _videoDecoder->getFps();
+            return 1.0 * _audioCurNbSamples / outRate + oneFrameTime;
         } else {
             _audioCurNbSamples = nbSamples;
         }
@@ -196,9 +189,6 @@ double Player::computeAudioClock(int64_t nbSamples) {
 }
 
 double Player::computeVideoClock(int64_t nbFrames) {
-    if (string::npos != _curPath.find(".jpg")) {
-        return AV_NOPTS_VALUE;
-    }
     if (_videoFile.hasVideo()) {
         if (nbFrames == AV_NOPTS_VALUE) {
             //audio 最快可以比 video 快2帧，超过2帧播放静音来等
@@ -207,83 +197,36 @@ double Player::computeVideoClock(int64_t nbFrames) {
             _videoCurNbFrames = nbFrames;
         }
     //    LOGD("nbFrames: %lld", nbFrames);
-        return 1.0 * nbFrames * _videoDecoder->getFps();
+        return nbFrames * 1.0 / _videoDecoder->getFps();
     }
     return MAXFLOAT;
 }
-
-void Player::stop(void *self) {
-    Player *player = reinterpret_cast<Player *>(self);
-    player->_audio.stop();
-    player->_video.stop();
-}
-
-void Player::start(void *self) {
-    Player *player = reinterpret_cast<Player *>(self);
-    player->_audio.start();
-    player->_video.start();
-}
-
-void Player::play() {
-    if (_isOpened) {
-        _audio.start();
-        _video.start();
-        _startPlayTime = av_gettime()/1000000.0 - _videoCurNbFrames * _videoDecoder->getFps();
-    } else {
-        _needPlay = true;
-    }
-    LOGD("Player::play");
-}
     
-bool Player::open(const string &path) {
-    if (path.empty()) {
-        return false;
-    }
+void Player::open(const string &path, OpenCallback callback) {
     _curPath = path;
-    if (string::npos != _curPath.find(".jpg")) {
-        //        _decodedJpgPath = "";
-        _video.init(_videoDecoder, this);
-
-        //TODO: asynchronize process
-        _video.open(3840, 2160);
-        _video.start();
-        return true;
-    }
-
+    
     _isOpened = false;
-    _openThread = new thread([&]()->void {
-        if (_isOpened == false) {
-            if (!open()) {
-                return;
-            }
-        }
-        
-        if (_seek >= 0.0) {
-            _packetReader->seek(_seek);
-            _seek = -1.0;
-        }
-        
-        _isOpened = true;
+    _openCallback = callback;
+    _openThread = new thread([&]() -> void {
+        open();
         performInMainThread(openedInMainThread, this);
     });
     
-    return true;
+    return;
 }
-    
+
 void Player::openedInMainThread(void *param) {
     Player* self = reinterpret_cast<Player *>(param);
     self->opened();
 }
     
-bool Player::opened() {
-    if (!_isOpened) {
-        return false;
+void Player::opened() {
+    if (!_openError.empty()) {
+        _openCallback(_openError);
+        return;
     }
     
-    _audioCurNbSamples = 0;
-    _videoCurNbFrames = 0;
-    
-    _packetReader->start();
+    start();
     
     if (_videoFile.hasAudio()) {
         _audioDecoder->open(_videoFile.getAudioCodec(), _videoFile.getAudioCodecId());
@@ -295,38 +238,22 @@ bool Player::opened() {
         _videoDecoder->open(_videoFile.getVideoCodec(), _videoFile.getVideoCodecId());
         _video.init(_videoDecoder, this);
         //确保宽和高都是4的倍数，ffmpeg要求是2的倍数，OpenGL要求是2的倍数，由于yuv420还要除以2，所以要是4的倍数
-        _video.open(_videoDecoder->getWidth(), _videoDecoder->getHeight());
-    }
-
-    if (_needPlay) {
-        play();
-        _needPlay = false;
+        _video.open(_videoDecoder->getWidth()/4*4, _videoDecoder->getHeight()/4*4);
     }
     
-    return true;
+    _isOpened = true;
+    _openCallback(_openError);
+    return;
 }
 
-bool Player::open() {
-    int ret = 0;
-    if ((ret = _videoFile.open(_curPath)) != 0) {
-        LOGD("Player::open failed!!! ret: %d", ret);
-        _lastError = ret;
-        return false;
+void Player::open() {
+    try {
+        _openError = "";
+        _videoFile.open(_curPath);
+    } catch (const exception &e) {
+        _openError = e.what();
     }
-    return true;
+    return;
 }
 
-void Player::inMainThread(void *param) {
-    Player* player = reinterpret_cast<Player *>(param);
-    player->close();
-    player->open(player->_curPath);
-    player->play();
-}
-
-void Player::reopen() {
-    _lastError = -1;
-//    _videoFile.unsupportHWCodec();
-//    performInMainThread(Player::inMainThread, this);
-}
-    
 }

@@ -31,8 +31,6 @@ public:
     
 private:
     bool atLeast();
-    void flushAudioPackets();
-    void flushVideoPackets();
     
     void freePackets(queue<AVPacket*> *packets);
     void produceAudioPacket(AVPacket *packet);

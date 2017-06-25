@@ -36,6 +36,7 @@ public:
     Renderer *getRenderer();
     void notify();
     void start();
+    void pause();
     void stop();
     void open(int width, int height);
     void close();
@@ -43,8 +44,9 @@ public:
     virtual void consumeTexture();
     
 private:
+    void alloc();
     void flush();
-    void flushUnSafe();
+    void release();
     void produceTexture();
     bool getTexture(uint8_t *yuvData[4]);
     bool isRingQueueFull();
@@ -64,7 +66,6 @@ private:
     SyncDelegate *_delegateSync;
     volatile bool _isExitThread;
     volatile bool _isGot;
-    volatile bool _isFlushing;
     thread *_videoThread;
     int _dstFrameWidth;
     int _dstFrameHeight;

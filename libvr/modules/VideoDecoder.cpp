@@ -84,7 +84,7 @@ int VideoDecoder::getHeight() {
 }
 
 double VideoDecoder::getFps() {
-    return 1.0 * _videoCtx->framerate.den / _videoCtx->framerate.num;
+    return _videoCtx->framerate.num / _videoCtx->framerate.den;
 }
 
 void VideoDecoder::safeFreeSwsContext() {
@@ -301,27 +301,6 @@ void VideoDecoder::setCodec(int codec) {
 }
 
 int VideoDecoder::getVideo(AVPixelFormat *pixFmt, int64_t *pts, AVFrame *frame, uint8_t *data[4], int linesize[4]) {
-//    if (string::npos != _curPath.find(".jpg")) {
-//        *pts = 1;
-//        if (_decodedJpgPath == _curPath) {
-//            return 0;
-//        }
-//        _decodedJpgPath = _curPath;
-//        string jpgData = FileUtil::getData(_decodedJpgPath);
-//        LOGD("Player::getVideo: image data size %lu, path: %s", jpgData.size(), _decodedJpgPath.c_str());
-//        Image img;
-//        string rgbData = img.decompressJpg(jpgData);
-//        frame->width = _dstFrameWidth;
-//        frame->height = _dstFrameHeight;
-//        uint8_t *data = reinterpret_cast<uint8_t *>(malloc(rgbData.length()));
-//        memmove(data, reinterpret_cast<void*>(&rgbData[0]), rgbData.length());
-//        //        frame->data[0] = reinterpret_cast<uint8_t*>(&rgbData[0]);
-//        frame->data[0] = data;
-//        frame->linesize[0] = _dstFrameWidth * 3;
-//        //        av_frame_ref(frame, frame);
-//        *pixFmt = AV_PIX_FMT_RGB24;
-//        return 1;
-//    }
     
     AVPacket *packet = nullptr;
     _packetReader->consumeVideoPacket(&packet);
@@ -339,7 +318,7 @@ int VideoDecoder::getVideo(AVPixelFormat *pixFmt, int64_t *pts, AVFrame *frame, 
     
     if (size < 0) {
         LOGE("avcodec_decode_video2 error!");
-        _player->reopen();
+        _player->setLastError(Player::Error::DECODE_ERROR);
         return -1;
     }
     if (!gotFrame) {

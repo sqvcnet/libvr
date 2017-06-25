@@ -14,7 +14,9 @@
 class RendererDelegate;
 class Renderer {
 public:
-    enum PixFmt {YUV420P, NV12, NV21, RGB};
+    enum class PixFmt: int {YUV420P, NV12, NV21, RGB};
+    enum class Mode {MODE_3D = 0, MODE_360 = 1, MODE_360_UP_DOWN = 2, MODE_3D_LEFT_RIGHT = 3, MODE_360_SINGLE = 4};
+    
 private:
     static const int TEXTURE_NUM = 5;
     int _w, _h;
@@ -57,12 +59,7 @@ public:
     bool isOpened();
     void render(float viewMatrix[]);
     void close();
-    void set360UpDown();
-    void set360();
-    void set360SingleView();
-    void setPlane();
-    void set3D();
-    void set3DLeftRight();
+    void setMode(Mode mode);
     void setRotateDegree(int degree);
     void setViewPortDegree(int degree);
     void setLandscape(bool isLeft);
@@ -71,6 +68,12 @@ private:
     void safeClose();
     bool open();
     void initGL();
+    void set360UpDown();
+    void set360();
+    void set360SingleView();
+    void setPlane();
+    void set3D();
+    void set3DLeftRight();
     void drawTriangle(GLuint programID, const GLfloat* vertexBufferData);
     GLuint LoadShaders(const char * VertexSourcePointer,const char * FragmentSourcePointer);
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
