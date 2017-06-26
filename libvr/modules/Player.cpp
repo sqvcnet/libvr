@@ -93,7 +93,7 @@ void Player::pause() {
 void Player::play() {
     LOGD("Player::play");
     if (!_isOpened) {
-        throw logic_error("play but not opened");
+        LOGW("play but not opened");
         return;
     }
     start();
@@ -129,7 +129,7 @@ void Player::stop() {
     
 void Player::seek(double percent) {
     if (!_isOpened) {
-        throw std::logic_error("seek but not opened");
+        LOGW("seek but not opened");
         return;
     }
 
@@ -150,10 +150,13 @@ void Player::setCodec(int codec) {
     if (codec == _videoDecoder->getCodec()) {
         return;
     }
-    if (_isPlaying) {
+    if (_isOpened) {
+        auto progress = getProgress();
         stop();
         closeDecoder();
         _videoDecoder->setCodec(codec);
+        //seek to key frame
+        _packetReader->seek(progress);
         openDecoder();
         readyPlay();
         start();
