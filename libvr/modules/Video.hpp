@@ -22,6 +22,7 @@ public:
 
 typedef struct _PtsAVFrame {
     int64_t pts;
+    Renderer::PixFmt pixFmt;
     AVFrame *frame;
     uint8_t *data[4];
     int linesize[4];
@@ -48,7 +49,7 @@ private:
     void flush();
     void release();
     void produceTexture();
-    bool getTexture(uint8_t *yuvData[4]);
+    bool getTexture(uint8_t *yuvData[4], Renderer::PixFmt *pixFmt);
     bool isRingQueueFull();
     
 private:
@@ -69,7 +70,6 @@ private:
     thread *_videoThread;
     int _dstFrameWidth;
     int _dstFrameHeight;
-    Renderer::PixFmt _dstPixFmt;
     bool _isUseFrame;
 };
 

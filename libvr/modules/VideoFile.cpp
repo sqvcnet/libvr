@@ -36,19 +36,19 @@ VideoFile::~VideoFile() {
     close();
 }
 
-bool VideoFile::hasAudio() {
+bool VideoFile::hasAudio() const {
     return _audioStreamIndex >= 0;
 }
 
-bool VideoFile::hasVideo() {
+bool VideoFile::hasVideo() const {
     return _videoStreamIndex >= 0;
 }
 
-bool VideoFile::isAudio(int streamIndex) {
+bool VideoFile::isAudio(int streamIndex) const {
     return _audioStreamIndex == streamIndex;
 }
 
-bool VideoFile::isVideo(int streamIndex) {
+bool VideoFile::isVideo(int streamIndex) const {
     return _videoStreamIndex == streamIndex;
 }
 
@@ -190,19 +190,19 @@ void VideoFile::open(const string & srcPath) {
     return;
 }
 
-AVCodecContext* VideoFile::getAudioCodec() {
+AVCodecContext* VideoFile::getAudioCodec() const {
     return _audioCodec;
 }
 
-AVCodecContext* VideoFile::getVideoCodec() {
+AVCodecContext* VideoFile::getVideoCodec() const {
     return _videoCodec;
 }
 
-enum AVCodecID VideoFile::getAudioCodecId() {
+enum AVCodecID VideoFile::getAudioCodecId() const {
     return _audioCodecId;
 }
 
-enum AVCodecID VideoFile::getVideoCodecId() {
+enum AVCodecID VideoFile::getVideoCodecId() const {
     return _videoCodecId;
 }
 

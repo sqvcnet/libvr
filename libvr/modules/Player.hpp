@@ -51,7 +51,11 @@ private:
     void open();
     void opened();
     static void openedInMainThread(void *param);
+    void readyPlay();
     void start();
+    void stop();
+    void openDecoder();
+    void closeDecoder();
     
 private:
     VideoFile _videoFile;
@@ -68,6 +72,7 @@ private:
     AVPixelFormat _dstPixFmt;
     
     volatile bool _isOpened;
+    bool _isPlaying;
     string _curPath;
     thread *_openThread;
     int _srcFrameWidth;

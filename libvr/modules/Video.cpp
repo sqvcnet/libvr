@@ -22,7 +22,6 @@ Video::Video()
 ,_videoThread(nullptr)
 ,_dstFrameWidth(0)
 ,_dstFrameHeight(0)
-,_dstPixFmt(Renderer::PixFmt::YUV420P)
 ,_isUseFrame(true)
 //,_dstPixFmt(AV_PIX_FMT_NV12)
 {
@@ -59,10 +58,8 @@ bool Video::getTexture(unsigned char **dataY, unsigned char **dataU, unsigned ch
     *dataU = nullptr;
     *dataV = nullptr;
     
-    *pixFmt = _dstPixFmt;
-    
     uint8_t *yuvData[4];
-    if (!getTexture(yuvData)) {
+    if (!getTexture(yuvData, pixFmt)) {
         return false;
     }
     
@@ -86,13 +83,15 @@ void Video::pause() {
     
 void Video::stop() {
     pause();
+    //assure _renderer.close() then flush(), else will probably crash.
+    //consider a frame F is being loaded by the renderer but not consumed yet, although the flush() will not truly free those frames(include F), but that will make the producer thread has probablity to produce a frame at the position of F, F will be released by FFmpeg(now the crash occurs) since its reference count will decrease to 0, and then replaced by the newly produced frame
+    _renderer.close();
     flush();
     LOGD("Video has been stoped");
 }
     
 void Video::close() {
     stop();
-    _renderer.close();
     release();
 }
     
@@ -121,7 +120,6 @@ void Video::open(int width, int height) {
     _dstFrameWidth = width;
     _dstFrameHeight = height;
     alloc();
-    _renderer.open(width, height);
 }
 
 void Video::flush() {
@@ -161,6 +159,7 @@ void Video::start() {
     if (_isExitThread == false) {
         return;
     }
+    _renderer.open(_dstFrameWidth, _dstFrameHeight);
     _isGot = false;
     _isExitThread = false;
     _videoThread = new thread([&]()->void {
@@ -171,23 +170,25 @@ void Video::start() {
                 int ret = _delegateVideo->getVideo(&pixFmt, &(_ringQueue[_ringQueueRear].pts),
                                          _ringQueue[_ringQueueRear].frame, _ringQueue[_ringQueueRear].data, _ringQueue[_ringQueueRear].linesize);
                 if (ret == 1 || ret == 2) {
+                    Renderer::PixFmt dstPixFmt;
                     switch (pixFmt) {
                         case AV_PIX_FMT_YUV420P:
-                            _dstPixFmt = Renderer::PixFmt::YUV420P;
+                            dstPixFmt = Renderer::PixFmt::YUV420P;
                             break;
                         case AV_PIX_FMT_NV12:
-                            _dstPixFmt = Renderer::PixFmt::NV12;
+                            dstPixFmt = Renderer::PixFmt::NV12;
                             break;
                         case AV_PIX_FMT_NV21:
-                            _dstPixFmt = Renderer::PixFmt::NV21;
+                            dstPixFmt = Renderer::PixFmt::NV21;
                             break;
                         case AV_PIX_FMT_RGB24:
-                            _dstPixFmt = Renderer::PixFmt::RGB;
+                            dstPixFmt = Renderer::PixFmt::RGB;
                             break;
                         default:
-                            LOGE("Video::start Unsupported pixel format!");
+                            throw runtime_error("Video::start Unsupported pixel format!");
                             break;
                     }
+                    _ringQueue[_ringQueueRear].pixFmt = dstPixFmt;
                     if (ret == 1) {
                         _isUseFrame = true;
                     } else {
@@ -224,7 +225,7 @@ void Video::produceTexture() {
     _ringQueueEmpty = false;
 }
 
-bool Video::getTexture(uint8_t *yuvData[4]) {
+bool Video::getTexture(uint8_t *yuvData[4], Renderer::PixFmt *pixFmt) {
     lock_guard<mutex> lock(_mutexTextures);
     if (!_ringQueueEmpty) {
         if (_delegateSync->computeVideoClock(_ringQueue[_ringQueueFront].pts) <= _delegateSync->computeAudioClock(AV_NOPTS_VALUE)) {
@@ -237,6 +238,7 @@ bool Video::getTexture(uint8_t *yuvData[4]) {
                     yuvData[i] = _ringQueue[_ringQueueFront].data[i];
                 }
             }
+            *pixFmt = _ringQueue[_ringQueueFront].pixFmt;
             _isGot = true;
         } else {
 //            LOGD("getTexture: too early");

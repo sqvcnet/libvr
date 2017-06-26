@@ -32,7 +32,7 @@ public:
     void unsupportHWCodec();
     int getCodec();
     void setCodec(int codec);
-    int open(AVCodecContext* videoCodec, enum AVCodecID codecId);
+    int open(AVCodecContext* videoCtx, enum AVCodecID codecId);
     void close();
     
     virtual int getVideo(AVPixelFormat *pixFmt, int64_t *pts, AVFrame *frame, uint8_t *data[4], int linesize[4]);
@@ -64,6 +64,9 @@ private:
     int _dstFrameHeight;
     enum AVPixelFormat _srcPixFmt;
     enum AVPixelFormat _dstPixFmt;
+    enum AVCodecID _srcCodecId;
+    AVCodecContext *_srcVideoCtx;
+    double _fps;
 };
 
 }

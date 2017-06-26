@@ -24,23 +24,27 @@ bool VideoDecoder::_isSupportHevcHWCodec = true;
 bool VideoDecoder::_isSupportAvcHWCodec = true;
 
 VideoDecoder::VideoDecoder(Player *player, PacketReader *packetReader)
-: _videoFrame(nullptr)
-, _videoCtx(nullptr)
-, _swsCtx(nullptr)
-, _packetReader(packetReader)
-, _player(player)
-, _canHWAccel(true)
+    : _videoFrame(nullptr)
+    , _videoCtx(nullptr)
+    , _swsCtx(nullptr)
+    , _packetReader(packetReader)
+    , _player(player)
+    , _canHWAccel(true)
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     , _curCodecName("h264_mediacodec")
 #endif
-, _curDts(AV_NOPTS_VALUE)
-, _videoNbFrames(0)
-, _srcFrameWidth(0)
-, _srcFrameHeight(0)
-, _dstFrameWidth(0)
-, _dstFrameHeight(0)
-, _srcPixFmt(AV_PIX_FMT_NONE)
-, _dstPixFmt(AV_PIX_FMT_NONE) {
+    , _curDts(AV_NOPTS_VALUE)
+    , _videoNbFrames(0)
+    , _srcFrameWidth(0)
+    , _srcFrameHeight(0)
+    , _dstFrameWidth(0)
+    , _dstFrameHeight(0)
+    , _srcPixFmt(AV_PIX_FMT_NONE)
+    , _dstPixFmt(AV_PIX_FMT_NONE)
+    , _srcVideoCtx(nullptr)
+    , _srcCodecId(AV_CODEC_ID_NONE)
+    , _fps(0.0)
+{
     _videoFrame = av_frame_alloc();
 }
 
@@ -84,7 +88,7 @@ int VideoDecoder::getHeight() {
 }
 
 double VideoDecoder::getFps() {
-    return _videoCtx->framerate.num / _videoCtx->framerate.den;
+    return _fps;
 }
 
 void VideoDecoder::safeFreeSwsContext() {
@@ -200,7 +204,9 @@ enum AVPixelFormat VideoDecoder::get_format(AVCodecContext *s, const enum AVPixe
     return *p;
 }
 
-int VideoDecoder::open(AVCodecContext *videoCodec, enum AVCodecID codecId) {
+int VideoDecoder::open(AVCodecContext *videoCtx, enum AVCodecID codecId) {
+    _srcVideoCtx = videoCtx;
+    _srcCodecId = codecId;
     _curDts = AV_NOPTS_VALUE;
     _videoNbFrames = 0;
     
@@ -219,9 +225,9 @@ int VideoDecoder::open(AVCodecContext *videoCodec, enum AVCodecID codecId) {
         goto fail;
     }
     LOGD("video codec name: %s\n", codec->name);
-    LOGD("videoCodec->width: %d, videoCodec->height: %d\n", videoCodec->width, videoCodec->height);
+    LOGD("videoCodec->width: %d, videoCodec->height: %d\n", videoCtx->width, videoCtx->height);
     _videoCtx = avcodec_alloc_context3(codec);
-    if(avcodec_copy_context(_videoCtx, videoCodec) != 0) {
+    if(avcodec_copy_context(_videoCtx, videoCtx) != 0) {
         LOGE("%s", "Couldn't copy codec context");
         ret = -2;
         goto fail;
@@ -232,6 +238,7 @@ int VideoDecoder::open(AVCodecContext *videoCodec, enum AVCodecID codecId) {
     //错误的值，在getVideo里的avcodec_decode_video2之后又会改成正确的值，详见打出的log
     _dstFrameWidth = _videoCtx->width;
     _dstFrameHeight = _videoCtx->height;
+    _fps = _videoCtx->framerate.num / _videoCtx->framerate.den;
     
 #if CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
     //编译时需要打开 --enable-pthreads 选项
@@ -278,6 +285,9 @@ int VideoDecoder::getCodec() {
 }
 
 void VideoDecoder::setCodec(int codec) {
+    if (codec == getCodec()) {
+        return;
+    }
     switch (codec) {
         case 0:
             _isSupportHevcHWCodec = false;

@@ -28,20 +28,20 @@ public:
     double getCacheProgress();
     double getTotalTime();
     
-    bool hasAudio();
-    bool hasVideo();
+    bool hasAudio() const;
+    bool hasVideo() const;
     
-    AVCodecContext* getAudioCodec();
-    AVCodecContext* getVideoCodec();
+    AVCodecContext* getAudioCodec() const;
+    AVCodecContext* getVideoCodec() const;
     
-    enum AVCodecID getAudioCodecId();
-    enum AVCodecID getVideoCodecId();
+    enum AVCodecID getAudioCodecId() const;
+    enum AVCodecID getVideoCodecId() const;
     
     int seekAudio(double percent);
     int seekVideo(double percent);
     
-    bool isAudio(int streamIndex);
-    bool isVideo(int streamIndex);
+    bool isAudio(int streamIndex) const;
+    bool isVideo(int streamIndex) const;
   
 private:
     static int openCb(void *p);

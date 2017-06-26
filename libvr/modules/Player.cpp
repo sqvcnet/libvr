@@ -19,6 +19,7 @@ Player::Player()
     ,_srcPixFmt(AV_PIX_FMT_NONE)
     ,_dstPixFmt(AV_PIX_FMT_NONE)
     ,_isOpened(false)
+    ,_isPlaying(false)
     ,_openThread(nullptr)
     ,_srcFrameWidth(-1)
     ,_srcFrameHeight(-1)
@@ -63,6 +64,7 @@ void Player::close() {
     if (!_isOpened) {
         return;
     }
+    
     pause();
     
     _audio.close();
@@ -78,17 +80,12 @@ void Player::close() {
     _isOpened = false;
     _lastError = Error::NO_ERROR;
 }
-    
-void Player::setCodec(int codec) {
-    if (codec != _videoDecoder->getCodec()) {
-        _videoDecoder->setCodec(codec);
-    }
-}
-    
+
 void Player::pause() {
     LOGD("Player:pause start: %lld", av_gettime());
     _audio.pause();
     _video.pause();
+    _isPlaying = false;
     LOGD("Player:pause end: %lld", av_gettime());
     LOGD("Player has been paused");
 }
@@ -99,8 +96,8 @@ void Player::play() {
         throw logic_error("play but not opened");
         return;
     }
-    _audio.start();
-    _video.start();
+    start();
+    _isPlaying = true;
     if (_videoFile.hasVideo()) {
         _startPlayTime = av_gettime()/1000000.0 - _videoCurNbFrames * 1.0 / _videoDecoder->getFps();
         return;
@@ -112,11 +109,22 @@ void Player::play() {
     throw runtime_error("neither audio nor video can be found");
 }
     
-void Player::start() {
+void Player::readyPlay() {
     _audioCurNbSamples = 0;
     _videoCurNbFrames = 0;
     _packetReader->start();
     _startPlayTime = av_gettime()/1000000.0;
+}
+    
+void Player::start() {
+    _audio.start();
+    _video.start();
+}
+    
+void Player::stop() {
+    _audio.stop();
+    _video.stop();
+    _packetReader->stop();
 }
     
 void Player::seek(double percent) {
@@ -124,21 +132,34 @@ void Player::seek(double percent) {
         throw std::logic_error("seek but not opened");
         return;
     }
-    LOGD("Player::seek start %f, progress: %f", percent, getCacheProgress());
 
-    //只有open的情况下，Renderer::render才会走到loadTexture，否则_video.close会死等，audio同理
-
-    _audio.stop();
-    _video.stop();
-    _packetReader->stop();
+    stop();
+    closeDecoder();
 
     _packetReader->seek(percent);
 
-    start();
-    _audio.start();
-    _video.start();
+    openDecoder();
     
-    LOGD("Player::seek end %f, progress: %f", percent, getCacheProgress());
+    if (_isPlaying) {
+        readyPlay();
+        start();
+    }
+}
+    
+void Player::setCodec(int codec) {
+    if (codec == _videoDecoder->getCodec()) {
+        return;
+    }
+    if (_isPlaying) {
+        stop();
+        closeDecoder();
+        _videoDecoder->setCodec(codec);
+        openDecoder();
+        readyPlay();
+        start();
+    } else {
+        _videoDecoder->setCodec(codec);
+    }
 }
     
 Player::Error Player::getLastError() {
@@ -153,7 +174,6 @@ void Player::setLastError(Error err) {
     
 double Player::getProgress() {
     if (_packetReader->isEnd()) {
-        pause();
         return 1.0;
     }
     return _videoFile.getProgress(_videoDecoder->getCurDts(), _audioDecoder->getCurDts());
@@ -161,7 +181,6 @@ double Player::getProgress() {
     
 double Player::getCacheProgress() {
     double progress = _packetReader->getCacheProgress();
-//    LOGD("Player::getProgress: %f", progress);
     return progress;
 }
 
@@ -220,22 +239,41 @@ void Player::openedInMainThread(void *param) {
     self->opened();
 }
     
+void Player::closeDecoder() {
+    if (_videoFile.hasAudio()) {
+        _audioDecoder->close();
+    }
+    
+    if (_videoFile.hasVideo()) {
+        _videoDecoder->close();
+    }
+}
+    
+void Player::openDecoder() {
+    if (_videoFile.hasAudio()) {
+        _audioDecoder->open(_videoFile.getAudioCodec(), _videoFile.getAudioCodecId());
+    }
+    
+    if (_videoFile.hasVideo()) {
+        _videoDecoder->open(_videoFile.getVideoCodec(), _videoFile.getVideoCodecId());
+    }
+}
+    
 void Player::opened() {
     if (!_openError.empty()) {
         _openCallback(_openError);
         return;
     }
     
-    start();
+    openDecoder();
+    readyPlay();
     
     if (_videoFile.hasAudio()) {
-        _audioDecoder->open(_videoFile.getAudioCodec(), _videoFile.getAudioCodecId());
         _audio.init(_audioDecoder, this);
         _audio.open(_audioDecoder->getOutputChannels(), _audioDecoder->getOutputSampleRate());
     }
     
     if (_videoFile.hasVideo()) {
-        _videoDecoder->open(_videoFile.getVideoCodec(), _videoFile.getVideoCodecId());
         _video.init(_videoDecoder, this);
         //确保宽和高都是4的倍数，ffmpeg要求是2的倍数，OpenGL要求是2的倍数，由于yuv420还要除以2，所以要是4的倍数
         _video.open(_videoDecoder->getWidth()/4*4, _videoDecoder->getHeight()/4*4);
