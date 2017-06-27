@@ -29,6 +29,7 @@ Support local file playing and http, rtmp, hls(correctly support DISCONTINUITY) 
 ## How to use
 #### See https://github.com/sqvcnet/react-native-libvr-demo and https://github.com/sqvcnet/react-native-libvr for detailed usages
 #### You can also run the simple demo.xcodeproj to take the first glance
+#### Notice: If you want to use this project in your own iOS project, remember to add "CoreMedia.framework, AudioToolbox.framework, VideoToolbox.framework, libz.dylib, libc++.dylib, GLKit.framework" in "Link Binary with Libraries" of project "Build Phrases". In order to add libz.dylib and libc++.dylib, you may be need to "Add Other" then press "Shift+Command+G" then input "/usr/lib" then find them, since the *.tbd cannot work.
 
 ### For iOS
 You should add NSMotionUsageDescription(Privacy - Motion Usage Description) in Info.plist, see https://developer.apple.com/documentation/coremotion
