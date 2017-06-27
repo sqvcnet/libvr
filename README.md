@@ -6,9 +6,9 @@ Support local file playing and http, rtmp, hls(correctly support DISCONTINUITY) 
 ![ScreenShot](https://github.com/sqvcnet/react-native-libvr-demo/raw/master/screenshots/screenshots.png)
 
 ## Features
-- Common
-- remove rarely used ffmpeg components to reduce binary size
-- workaround for some buggy online video.
+*Common
+* remove rarely used ffmpeg components to reduce binary size
+* workaround for some buggy online video.
 
 
 - Android
