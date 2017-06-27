@@ -6,9 +6,9 @@ Support local file playing and http, rtmp, hls(correctly support DISCONTINUITY) 
 ![ScreenShot](https://github.com/sqvcnet/react-native-libvr-demo/raw/master/screenshots/screenshots.png)
 
 ## Features
-* Common
-* remove rarely used ffmpeg components to reduce binary size
-* workaround for some buggy online video.
+- Common
+- remove rarely used ffmpeg components to reduce binary size
+- workaround for some buggy online video.
 
 
 - Android
@@ -28,6 +28,7 @@ Support local file playing and http, rtmp, hls(correctly support DISCONTINUITY) 
 
 ## How to use
 #### See https://github.com/sqvcnet/react-native-libvr-demo and https://github.com/sqvcnet/react-native-libvr for detailed usages
+#### You can also run the simple demo.xcodeproj to take the first glance
 
 ### For iOS
 You should add NSMotionUsageDescription(Privacy - Motion Usage Description) in Info.plist, see https://developer.apple.com/documentation/coremotion
