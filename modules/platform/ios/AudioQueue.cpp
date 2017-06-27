@@ -33,21 +33,23 @@ void AudioQueue::determineOutputDevice() {
     CFStringRef tmp = CFStringCreateWithCString(CFAllocatorGetDefault(), "RouteDetailedDescription_Outputs", kCFStringEncodingUTF8);
     const CFArrayRef outputs = (const CFArrayRef)CFDictionaryGetValue(dict, tmp);
     CFRelease(tmp);
-    CFIndex count = CFArrayGetCount(outputs);
-    const CFStringRef *keys[256];
-    const void *values[256];
-    for (int i = 0; i < count; i++) {
-        dict = reinterpret_cast<CFDictionaryRef>(CFArrayGetValueAtIndex(outputs, i));
-        
-        tmp = CFStringCreateWithCString(CFAllocatorGetDefault(), "RouteDetailedDescription_IsHeadphones", kCFStringEncodingUTF8);
-        const CFBooleanRef isHeadphone = reinterpret_cast<const CFBooleanRef>(CFDictionaryGetValue(dict, tmp));
-        CFRelease(tmp);
-        if (CFBooleanGetValue(isHeadphone)) {
-            UInt32 route = kAudioSessionOverrideAudioRoute_None;
-            error = AudioSessionSetProperty(kAudioSessionProperty_OverrideAudioRoute, sizeof(route), &route);
-            return;
+    if (outputs != nullptr) {
+        CFIndex count = CFArrayGetCount(outputs);
+        const CFStringRef *keys[256];
+        const void *values[256];
+        for (int i = 0; i < count; i++) {
+            dict = reinterpret_cast<CFDictionaryRef>(CFArrayGetValueAtIndex(outputs, i));
+            
+            tmp = CFStringCreateWithCString(CFAllocatorGetDefault(), "RouteDetailedDescription_IsHeadphones", kCFStringEncodingUTF8);
+            const CFBooleanRef isHeadphone = reinterpret_cast<const CFBooleanRef>(CFDictionaryGetValue(dict, tmp));
+            CFRelease(tmp);
+            if (CFBooleanGetValue(isHeadphone)) {
+                UInt32 route = kAudioSessionOverrideAudioRoute_None;
+                error = AudioSessionSetProperty(kAudioSessionProperty_OverrideAudioRoute, sizeof(route), &route);
+                return;
+            }
+    //        CFDictionaryGetKeysAndValues(dict, (const void **)keys, (const void **)values);
         }
-//        CFDictionaryGetKeysAndValues(dict, (const void **)keys, (const void **)values);
     }
     
     UInt32 route = kAudioSessionOverrideAudioRoute_Speaker;
