@@ -10,12 +10,14 @@ Support local file playing and http, rtmp, hls(correctly support DISCONTINUITY) 
 - remove rarely used ffmpeg components to reduce binary size
 - workaround for some buggy online video.
 
+
 - Android
 - platform: API 9~23
 - cpu: ARMv7a, ARM64v8a, x86 (ARMv5 is not tested on real devices)
 - video-output: OpenGL ES 2.0
 - audio-output: AudioTrack, OpenSL ES
 - hw-decoder: MediaCodec (API 16+, Android 4.1+)
+
 
 - iOS
 - platform: iOS 7.0~10.3.x
