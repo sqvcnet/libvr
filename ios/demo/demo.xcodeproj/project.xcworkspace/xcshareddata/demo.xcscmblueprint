@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BB1E3FBE498DCEEFA4B42D083CD04A9CF86A286E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "65743DC1944BFD568C77478CAF58834FC23391B7" : 9223372036854775807,
+    "BB1E3FBE498DCEEFA4B42D083CD04A9CF86A286E" : 9223372036854775807,
+    "7B8D85F13EDBE5BFDA885F7E1DFF3B9B20D004F7" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C8670564-079E-4847-A9CE-4B47A59D93D4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "65743DC1944BFD568C77478CAF58834FC23391B7" : "",
+    "BB1E3FBE498DCEEFA4B42D083CD04A9CF86A286E" : "libvr\/",
+    "7B8D85F13EDBE5BFDA885F7E1DFF3B9B20D004F7" : "..\/.."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "demo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/demo\/demo.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sqvcnet\/react-native-libvr.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "65743DC1944BFD568C77478CAF58834FC23391B7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sqvcnet\/react-native-libvr-demo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7B8D85F13EDBE5BFDA885F7E1DFF3B9B20D004F7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sqvcnet\/libvr.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BB1E3FBE498DCEEFA4B42D083CD04A9CF86A286E"
+    }
+  ]
+}

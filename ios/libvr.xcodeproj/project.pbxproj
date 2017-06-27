@@ -51,7 +51,6 @@
 		0B00BA2D1EFA5D4B001C5DD9 /* libavutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libavutil.a; path = libvr/third_party/ffmpeg/prebuilt/ios/libavutil.a; sourceTree = "<group>"; };
 		0B00BA2E1EFA5D4B001C5DD9 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = libvr/third_party/ffmpeg/prebuilt/ios/libswresample.a; sourceTree = "<group>"; };
 		0B00BA2F1EFA5D4B001C5DD9 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = libvr/third_party/ffmpeg/prebuilt/ios/libswscale.a; sourceTree = "<group>"; };
-		0B00BA361EFA5D90001C5DD9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0B2E4E5A1EB7332B0063163B /* libvrTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libvrTests.m; sourceTree = "<group>"; };
 		0B2E4E5C1EB7332B0063163B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B2E4EDF1EB73D940063163B /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
@@ -153,7 +152,6 @@
 		0B2E4EDE1EB73D930063163B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0B00BA361EFA5D90001C5DD9 /* libz.tbd */,
 				0B00BA2A1EFA5D4B001C5DD9 /* libavcodec.a */,
 				0B00BA2B1EFA5D4B001C5DD9 /* libavfilter.a */,
 				0B00BA2C1EFA5D4B001C5DD9 /* libavformat.a */,

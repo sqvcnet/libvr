@@ -18,21 +18,20 @@
     CADisplayLink *_displayLink;
 }
 
-- (instancetype)init
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    [self initOther];
+    [self initRenderer:frame.size.width height:frame.size.height];
+    return self;
+}
+
+- (void)initOther
 {
     _player = new geeek::Player();
     
-    EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-    if (eaglContext == nil) {
-        eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    }
-    [EAGLContext setCurrentContext:eaglContext];
-    
-    self = [self initWithFrame:CGRectZero];
-
-    self.context = eaglContext;
     self.delegate = self;
-
+    
     if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft) {
         _player->getRenderer()->setLandscape(true);
     } else {
@@ -42,8 +41,31 @@
      addObserver:self selector:@selector(orientationChanged:)
      name:UIDeviceOrientationDidChangeNotification
      object:[UIDevice currentDevice]];
-    
+}
+
+- (instancetype)init
+{
+    self = [super initWithFrame:CGRectZero];
+    [self initOther];
     return self;
+}
+
+- (void)initRenderer:(int)width height:(int)height {
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    CGRect screenNativeBounds = [[UIScreen mainScreen] nativeBounds];
+    int w = screenNativeBounds.size.width;
+    int h = screenNativeBounds.size.height;
+    if (screenBounds.size.width > screenBounds.size.height) {
+        int tmp = w;
+        w = h;
+        h = tmp;
+    }
+    double wScale = w / screenBounds.size.width;
+    double hScale = h / screenBounds.size.height;
+    w = 1.0 * width * wScale;
+    h = 1.0 * height * hScale;
+    
+    _player->getRenderer()->init(w, h);
 }
 
 - (void) orientationChanged:(NSNotification *)note
@@ -71,6 +93,13 @@
 }
 
 - (void)threadMain {
+    EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+    if (eaglContext == nil) {
+        eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    }
+    [EAGLContext setCurrentContext:eaglContext];
+    self.context = eaglContext;
+    
     [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     CFRunLoopRun();
 }
@@ -206,10 +235,6 @@
 
 - (void)setViewPortDegree:(int)degree {
     _player->getRenderer()->setViewPortDegree(degree);
-}
-
-- (void)initRenderer:(int)width height:(int)height {
-    _player->getRenderer()->init(width, height);
 }
 
 - (void)render:(CADisplayLink*)displayLink {
