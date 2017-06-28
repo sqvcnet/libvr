@@ -24,7 +24,7 @@
     _vrplayer = [[VRPlayer alloc] initWithFrame:self.view.frame];
     [self.view addSubview:_vrplayer];
     
-    [_vrplayer open:@"./movies/WeiLaiTiYu3D.x264_480x480.mp4" callback:^(NSString *err) {
+    [_vrplayer open:@"./movies/GongKeJiDongDui3D.mp4" callback:^(NSString *err) {
         [_vrplayer play:YES];
         _timer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                   target:self

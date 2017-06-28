@@ -15,7 +15,7 @@
 #import <AudioToolbox/AudioSession.h>
 
 class AudioQueue {
-    static const int BUFFER_NUM = 3;
+    static const int BUFFER_NUM = 30;
     
 public:
     AudioQueue();

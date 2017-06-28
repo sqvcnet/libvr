@@ -33,3 +33,8 @@ Support local file playing and http, rtmp, hls(correctly support DISCONTINUITY) 
 
 ### For iOS
 You should add NSMotionUsageDescription(Privacy - Motion Usage Description) in Info.plist, see https://developer.apple.com/documentation/coremotion
+
+### Important
+The OpenGL ES code may run faster or slower in simulator than on an actual device. Always profile and optimize your drawing code on a real device, and never assume that Simulator reflects real-world performance.
+See https://developer.apple.com/library/content/documentation/OpenGLES/Conceptual/OpenGLESHardwarePlatformGuide_iOS/OpenGLESiniOSSimulator/OpenGLESiniOSSimulator.html for more details.
+

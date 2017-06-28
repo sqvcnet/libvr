@@ -354,7 +354,7 @@ int VideoDecoder::getVideo(AVPixelFormat *pixFmt, int64_t *pts, AVFrame *frame, 
     static time_t ts = time(nullptr);
     if (time(nullptr) != ts) {
         LOGV("frameRate: %d", count);
-        LOGD("VideoDecoder::getVideo: _videoCtx->width: %d, _videoCtx->height: %d\n, _videoCtx->coded_width: %d, _videoCtx->coded_height: %d, frame->linesize[0]: %d \n", _videoCtx->width, _videoCtx->height, _videoCtx->coded_width, _videoCtx->coded_height, frame->linesize[0]);
+//        LOGD("VideoDecoder::getVideo: _videoCtx->width: %d, _videoCtx->height: %d\n, _videoCtx->coded_width: %d, _videoCtx->coded_height: %d, frame->linesize[0]: %d \n", _videoCtx->width, _videoCtx->height, _videoCtx->coded_width, _videoCtx->coded_height, frame->linesize[0]);
         
         count = 0;
         ts = time(nullptr);
