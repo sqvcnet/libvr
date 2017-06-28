@@ -77,7 +77,7 @@ void PacketReader::stop() {
 }
     
 bool PacketReader::isEnd() {
-    return _isEnd && _audioPackets.empty() && _videoPackets.empty();
+    return _isEnd && (_audioPackets.empty() || _videoPackets.empty());
 }
     
 void PacketReader::start() {

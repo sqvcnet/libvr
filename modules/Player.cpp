@@ -139,9 +139,9 @@ void Player::seek(double percent) {
     _packetReader->seek(percent);
 
     openDecoder();
+    readyPlay();
     
     if (_isPlaying) {
-        readyPlay();
         start();
     }
 }

@@ -93,12 +93,14 @@
 }
 
 - (void)threadMain {
-    EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-    if (eaglContext == nil) {
-        eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    if (self.context == nil) {
+        EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+        if (eaglContext == nil) {
+            eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        }
+        [EAGLContext setCurrentContext:eaglContext];
+        self.context = eaglContext;
     }
-    [EAGLContext setCurrentContext:eaglContext];
-    self.context = eaglContext;
     
     [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     CFRunLoopRun();
